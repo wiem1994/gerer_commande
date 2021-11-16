@@ -1,0 +1,18 @@
+{% extends "base.html.twig" %}
+{% block title %}Register{% endblock %}
+
+{% block body %}
+
+<h1>Welcome to the home page</h1>
+
+
+{% for product in products %}
+<hr>
+<P>{{product.name}}</p>
+<P>{{product.price}}</p>
+<a href={{path('app_new', {'id': product.id})}}><button>View detail</button></a>
+<hr>
+{% endfor %}
+
+<a href="{{path('security_logout')}}"><button>logout</button></a>
+{% endblock %}

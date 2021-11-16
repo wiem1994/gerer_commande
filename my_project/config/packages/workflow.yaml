@@ -1,0 +1,41 @@
+framework:
+  workflows:
+    command_request:
+      type: "workflow" # or 'state_machine'
+      audit_trail:
+        enabled: true
+      marking_store:
+        type: "single_state"
+        arguments:
+          - "status"
+      supports:
+        - App\Entity\Product
+      initial_marking: unpassed
+      places:
+        - unpassed
+        - passed
+        - canceled
+        - validated
+        - send
+        - delivered
+      transitions:
+        to_pass:
+          from: unpassed
+          to: passed
+        to_cancel:
+          from: passed
+          to: canceled
+        to_pay:
+          from: passed
+          to: validated
+        to_cancel_after_validation:
+          from: validated
+          to: canceled
+        to_send:
+          guard: "is_granted('ROLE_ADMIN')"
+          from: validated
+          to: send
+        to_deliver:
+          guard: "is_granted('ROLE_ADMIN')"
+          from: send
+          to: delivered

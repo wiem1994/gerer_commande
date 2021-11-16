@@ -1,0 +1,37 @@
+{% extends "base.html.twig" %}
+{% block title %}Admin page{% endblock %}
+
+{% block body %}
+
+<h1>Welcome to the admin page</h1>
+
+
+
+<h3>Products to mark sent</h3>
+{% for product in cart %}
+{% if product.status == "validated" and cart|length > 0 %}
+<P>{{product.status}}</p>
+<p>the command is linked to the user id number : {{product.user.id}}</p>
+<p>the command is linked to the user email : {{product.user.email}}</p>
+<a href={{path('app_send', {'id': product.id})}}><button>Send</button></a>
+<hr>
+{% endif %}
+{% endfor %}
+
+
+<hr>
+
+
+<h3>Products to mark delivered</h3>
+{% for product in cart %}
+{% if product.status == "send" and cart|length > 0 %}
+<hr>
+<P>{{product.status}}</p>
+<a href={{path('app_deliver', {'id': product.id})}}><button>deliver</button></a>
+<hr>
+{% endif %}
+{% endfor %}
+
+<hr>
+<a href="{{path('security_logout')}}"><button>logout</button></a>
+{% endblock %}
